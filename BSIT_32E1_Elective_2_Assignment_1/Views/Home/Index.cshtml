@@ -1,0 +1,25 @@
+@model List<Question>
+@{ ViewData["Title"] = "Answers"; }
+
+<style>
+    .q { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.25rem; margin-bottom:1rem; }
+    .q h2 { font-size:1.05rem; margin:0 0 .75rem; }
+    .opt { padding:.5rem .75rem; border:1px solid var(--line); border-radius:8px; margin:.35rem 0; }
+    .opt.correct { background:var(--ok); border-color:var(--okb); font-weight:600; }
+    .exp, .note { color:var(--muted); font-size:.92rem; margin:.6rem 0 0; }
+</style>
+
+@foreach (var q in Model)
+{
+    <section class="q">
+        <h2>@q.Number. @q.Text</h2>
+        @for (int i = 0; i < q.Options.Count; i++)
+        {
+            <div class="opt @(i == q.CorrectIndex ? "correct" : "")">
+                @((char)('A' + i))) @q.Options[i] @(i == q.CorrectIndex ? "✔" : "")
+            </div>
+        }
+        <p class="exp"><strong>Why:</strong> @q.Explanation</p>
+        @if (q.Note is not null) { <p class="note">Note: @q.Note</p> }
+    </section>
+}
